@@ -43,6 +43,9 @@ export default function useTimer(settings) {
             clearInterval(intervalRef.current);
             intervalRef.current = undefined;
         }
+        setCount(0);
+        setSecs(0);
+        setMicrosecs(0);
     }
 
     function resume() {
@@ -59,7 +62,6 @@ export default function useTimer(settings) {
     function setDuration() {
         let now = new Date().getTime();
         let dist = Math.round((expiryTimestamp - now) / 10);
-        console.log(dist);
 
         let secs = Math.round(dist / (100));
         let microSecs = dist % 100;

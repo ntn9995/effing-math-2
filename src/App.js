@@ -4,12 +4,9 @@ import './App.css';
 
 function App() {
 
-  let t = new Date();
-  t.setSeconds(t.getSeconds() + 7);
-
   return (
     <div className="App">
-      <Timer expiryTimestamp={t} onExpire/>
+      <Timer title="Suhhhhh" duration={7}/>
     </div>
   );
 }

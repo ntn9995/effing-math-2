@@ -33,7 +33,7 @@ export default function Timer(props) {
     const display = expired ?
         <div>Time's Up!</div> : 
         (
-            <div><span>{formatTime(secs, 1)}</span>:<span>{formatTime(miliSecs)}</span></div>
+            <div><span>{formatTime(secs, secPrecision)}</span>:<span>{formatTime(miliSecs, msPrecision)}</span></div>
         ); 
 
     return (

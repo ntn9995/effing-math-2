@@ -6,7 +6,7 @@ function App() {
 
   return (
     <div className="App">
-      <Timer title="Suhhhhh" duration={7}/>
+      <Timer title="Suhhhhh" duration={10} secPrecision={1} msPrecision={2}/>
     </div>
   );
 }

@@ -1,12 +1,9 @@
 import {useState, useEffect} from 'react';
 import {getQuestion} from '../utils/questionUtils'
 
-const OP = ['+', '-', 'x', '/'];
-const PRIMES = [2,3,5,7,11,13,17,19,21,23,29];
-
 export default function useQuestion(settings){
 
-    const {questionSettings: difficulty, answer} = settings || {};
+    const {difficulty, answer, onCorrectAns, onWrongAns} = settings || {};
 
 
     const [question, setQuestion] = useState({});
@@ -15,16 +12,16 @@ export default function useQuestion(settings){
         setQuestion(getQuestion(difficulty));
     }
 
-    const [answerStatus, setAnswerStatus] = useState(-1);
     const checkAnswer = () => {
         if ((typeof answer === 'undefined') || (answer === '')){
-            setAnswerStatus(-1);
+            return;
         } else {
             const {correctAns} = question;
             if (typeof correctAns === 'undefined') {
-                setAnswerStatus(0);
+                return;
             } else {
-                setAnswerStatus(1);
+                if (correctAns === answer) onCorrectAns();
+                else onWrongAns();
             }
         }
     }
@@ -32,9 +29,9 @@ export default function useQuestion(settings){
     useEffect(() => {
         startQuestion();
         checkAnswer();
-    }, [settings])
+    }, [answer])
 
     const {first, second, op, correctAns} = question;
 
-    return {first, second, op, correctAns, answerStatus, checkAnswer};
+    return {first, second, op, correctAns, checkAnswer};
 }

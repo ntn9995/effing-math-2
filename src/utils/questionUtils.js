@@ -65,8 +65,7 @@ const getQuestion = (op, difficulty) => {
     return {randFirst, randSecond, ans};
 }
 
-export function getQuestion(settings) {
-    const {difficulty} = settings;
+export function getQuestion(difficulty) {
     const op = getOp();
     const {first, second, correctAns} = getQuestion(op, difficulty);
 

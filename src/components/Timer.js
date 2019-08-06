@@ -4,6 +4,7 @@ import useTimer from '../hooks/useTimer'
 export default function Timer(props) {
     const {title, duration, secPrecision, msPrecision, onTimeout, continueCount} = props;
 
+
     let t = new Date();
     t.setSeconds(t.getSeconds() + duration);
     const expiryTimestamp = t;

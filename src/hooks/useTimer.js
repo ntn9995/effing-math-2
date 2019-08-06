@@ -31,13 +31,16 @@ export default function useTimer(settings) {
     }
 
     function reset(){
+        setStopped(false);
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = undefined;
         }
     }
 
+    const [stopped, setStopped] = useState(false);
     function stop(){
+        setStopped(true);
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = undefined;
@@ -76,7 +79,8 @@ export default function useTimer(settings) {
     }
 
     useEffect(() => {
-        start();
+        console.log(stopped);
+        if (!stopped) start();
         return stop;
     }, [expiryTimestamp]);
 
@@ -97,5 +101,5 @@ export default function useTimer(settings) {
         return valid;
     }
 
-    return {miliSecs, secs, start, resume, restart};
+    return {miliSecs, secs, start, stop, resume, restart};
 }

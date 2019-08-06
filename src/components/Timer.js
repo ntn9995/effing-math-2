@@ -11,8 +11,6 @@ export default function Timer(props) {
     const {
         miliSecs,
         secs,
-        start,
-        pause,
         restart
     } = useTimer({expiryTimestamp, onExpire:() => onTimeout()});
 

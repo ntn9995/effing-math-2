@@ -8,7 +8,6 @@ export default function useTimer(settings) {
     function subtractCount(){
         setCount(prevCount => {
             if (prevCount > 0){
-                console.log(prevCount)
                 setSecs(Math.floor(prevCount / 100));
                 setMicrosecs(prevCount % 100);
                 return prevCount - 1;

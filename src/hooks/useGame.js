@@ -17,9 +17,11 @@ export default function useGame(settings){
     const gameOver = () => {
         setOver(true);
         let currentHighscore = localStorage.getItem('currentHighscore');
-        if (currentHighscore !== null && highscore > currentHighscore){
+        if (currentHighscore === null){
             localStorage.setItem('currentHighscore', highscore);
-        };
+        } else if (currentHighscore < highscore){
+            localStorage.setItem('currentHighscore', highscore);
+        }
     };
 
     const incrementScore = () => {
@@ -49,6 +51,7 @@ export default function useGame(settings){
     const question = {first, second, op}
 
     useEffect(() => {
+        console.log(over);
         let currentHighscore = localStorage.getItem('currentHighscore');
         if (currentHighscore !== null) setHighscore(currentHighscore);
     }, [over])

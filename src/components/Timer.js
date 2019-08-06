@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import useTimer from '../hooks/useTimer'
 
 export default function Timer(props) {
-    const {title, duration, secPrecision, msPrecision, onTimeout} = props;
+    const {title, duration, secPrecision, msPrecision, onTimeout, continueCount} = props;
 
     let t = new Date();
     t.setSeconds(t.getSeconds() + duration);
@@ -27,19 +27,22 @@ export default function Timer(props) {
         return time.toString();
     }
 
+    const resetTimer = () => {
+        let t = new Date();
+        t.setSeconds(t.getSeconds() + duration);
+        restart(t);
+    }
+
+    useEffect(() => {
+        resetTimer();
+    }, [continueCount])
+
     return (
         <div>
             <h1>{title || 'Timer'}</h1>
             <div>
                 <span>{formatTime(secs, secPrecision)}</span>:<span>{formatTime(miliSecs, msPrecision)}</span>
             </div>
-            <button onClick={start}>Start</button>
-            <button onClick={pause}>Pause</button>
-            <button onClick={() => {
-                let t = new Date();
-                t.setSeconds(t.getSeconds() + duration);
-                restart(t);
-            }}>Restart</button>
         </div>
     );
 }

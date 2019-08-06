@@ -30,14 +30,14 @@ export default function useTimer(settings) {
         }
     }
 
-    function pause(){
-        if(intervalRef.current) {
+    function reset(){
+        if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = undefined;
         }
     }
 
-    function reset(){
+    function stop(){
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = undefined;
@@ -65,7 +65,7 @@ export default function useTimer(settings) {
         let secs = Math.round(dist / (100));
         let microSecs = dist % 100;
 
-        if (secs < 0) {
+        if (count < 0) {
             reset();
             isValidOnExpire(onExpire) && onExpire();
         } else {
@@ -77,7 +77,7 @@ export default function useTimer(settings) {
 
     useEffect(() => {
         start();
-        return reset;
+        return stop;
     }, [expiryTimestamp]);
 
     function isValidExpiryTimestamp(expiryTimestamp) {
@@ -97,5 +97,5 @@ export default function useTimer(settings) {
         return valid;
     }
 
-    return {miliSecs, secs, start, pause, resume, restart};
+    return {miliSecs, secs, start, resume, restart};
 }

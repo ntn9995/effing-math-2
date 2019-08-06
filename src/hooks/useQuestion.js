@@ -34,5 +34,7 @@ export default function useQuestion(settings){
         checkAnswer();
     }, [settings])
 
-    return {question, answerStatus, checkAnswer}
+    const {first, second, op, correctAns} = question;
+
+    return {first, second, op, correctAns, answerStatus, checkAnswer};
 }

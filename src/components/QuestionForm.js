@@ -8,6 +8,8 @@ export default function QuestionForm(props) {
     const submitAnswer = e => {
         e.preventDefault();
         handleAnswer(parseInt(answer));
+        setAnswer('');
+        document.getElementById("question-form").reset();
     }
 
     const updateAnswer = e => {
@@ -16,7 +18,7 @@ export default function QuestionForm(props) {
 
     return(
         <div>
-            <form onSubmit={submitAnswer}>
+            <form onSubmit={submitAnswer} id="question-form">
                 <input type="text"
                     name="answer"
                     value={answer}

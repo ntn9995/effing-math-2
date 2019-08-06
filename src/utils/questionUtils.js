@@ -1,30 +1,36 @@
-const OP = ['+', '-', 'x', '/'];
+const OPS = ['+', '-', 'x', '/'];
 const PRIMES = [2,3,5,7,11,13,17,19,21,23,29];
 
-const randInt = (min, max) => Math.random() * (max - min) + min;
+const randInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min)) + min;
+};
 
-const getMultiplier = x => PRIMES.find(e => (x % e) === 0);
+const getMultiplier = x => {
+    return PRIMES.find(e => (x % e) === 0);
+};
 
-const getOp = () => OP[Math.floor(Math.random()*OP.length)];
+const getOp = () => {
+    return OPS[Math.floor(Math.random()*OPS.length)];
+}
 
-const getQuestion = (op, difficulty) => {
-    let randFirst = 0;
-    let randSecond = 0;
+const getOperands = (op, difficulty) => {
+    let first = 0;
+    let second = 0;
 
     switch(difficulty){
         case 1:
-            randFirst = randInt(0, 10);
-            randSecond = randInt(2, 10);
+            first = randInt(0, 10);
+            second = randInt(2, 10);
             break;
         
         case 2:
-            randFirst = randInt(10, 21);
-            randSecond = randInt(2, 10);
+            first = randInt(10, 21);
+            second = randInt(2, 10);
             break;
 
         case 3:
-            randFirst = randInt(10, 31);
-            randSecond = randInt(2, 21);
+            first = randInt(10, 31);
+            second = randInt(2, 21);
             break;
 
         default:
@@ -32,42 +38,39 @@ const getQuestion = (op, difficulty) => {
     }
 
     if (op === '/') {
-        if (PRIMES.includes(randFirst)){
-            if (randFirst === 2){
-                randFirst = 4
+        if (PRIMES.includes(first)){
+            if (first === 2){
+                first = 4
             } else {
-                randFirst++;
+                first++;
             }
         }
-        randSecond = getMultiplier(randFirst);
+        second = getMultiplier(first);
     }
-
-    console.log(randomFirst + ' ' + op + ' '  + randomSecond); 
-
-    let ans = 0;
+    let correctAns = 0;
     switch(op) {
         case '+':
-            ans = randomFirst + randomSecond;
+            correctAns = first + second;
             break;
         case '-':
-            ans = randomFirst - randomSecond;
+            correctAns = first - second;
             break;
         case 'x':
-            ans = randomFirst * randomSecond;
+            correctAns = first * second;
             break;
         case '/':
-            ans = randomFirst / randomSecond;
+            correctAns = first / second;
             break;
         default:
             break;
     }
 
-    return {randFirst, randSecond, ans};
+    return {first, second, correctAns};
 }
 
 export function getQuestion(difficulty) {
     const op = getOp();
-    const {first, second, correctAns} = getQuestion(op, difficulty);
+    const {first, second, correctAns} = getOperands(op, difficulty);
 
     return {first, second, op, correctAns};
 }

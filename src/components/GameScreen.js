@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import Timer from './Timer';
-import QuestionForm from './QuestionForm'
-import GameInfo from './GameInfo'
-import useQuestion from '../hooks/useQuestion'
+import QuestionForm from './QuestionForm';
+import GameInfo from './GameInfo';
+import useQuestion from '../hooks/useQuestion';
+import useGame from '../hooks/useGame';
 
 const TIMEOUT = 1;
 const WRONGANS = 2;
@@ -11,54 +12,24 @@ const DURATION = 10;
 const EMPTYDIV = <div></div>;
 
 export default function GameScreen() {
-
-    const [over, setOver] = useState(false);
     const [reason, setReason] = useState(0);
-    const [score, setScore] = useState(0);
-    const [highscore, setHighscore] = useState(0);
     const [answer, setAnswer] = useState('');
 
-    const getDifficulty = () => {
-        if (score < 50) return 1
-        if ((score >= 50) && (score < 100)) return 2;
-        return 3;
-    }
-
-    const gameOver = () => {
-        setOver(true);
-        let currentHighscore = localStorage.getItem('currentHighscore');
-        if (currentHighscore !== null && highscore > currentHighscore){
-            localStorage.setItem('currentHighscore', highscore);
-        };
-    };
-
-    const incrementScore = () => {
-        setScore(s => {
-            if (highscore < (s + 10)) setHighscore(s + 10);
-            return s + 10;
-        });
-    }
-
-    const difficulty = getDifficulty(score);
     const {
-        first,
-        second,
-        op,
-    } = useQuestion({
+        over,
+        score,
+        highscore,
         difficulty,
+        question,
+        gameOver
+    } = useGame({
         answer,
-        onCorrectAns: () =>{
-            incrementScore();
-        },
-        onWrongAns: () => {
-            setReason(WRONGANS);
-            gameOver();
-        }
+        handleWrongAns: () => {setReason(WRONGANS)}
     });
 
     const handleTimeout = () => {
         setReason(TIMEOUT);
-        gameOver(reason);
+        gameOver();
     }
 
     const handleAnswer = a => {
@@ -78,14 +49,11 @@ export default function GameScreen() {
         <h2>{reason === 1 ? 'Time\'s Up!' : 'Wrong Answer'}!</h2>
     </div>);
 
-    const question = (<div>
+    const {first, second, op} = question;
+
+    const questionDiv = (<div>
          <h3>{first} {op} {second} = ?</h3>
     </div>);
-    
-    useEffect(() => {
-        let currentHighscore = localStorage.getItem('currentHighscore');
-        if (currentHighscore !== null) setHighscore(currentHighscore);
-    }, [over])
 
     return (
         <div>
@@ -93,7 +61,7 @@ export default function GameScreen() {
                 {over ? gameOverMsg : gameTimer}
             </div>
             <div>
-                {over ? EMPTYDIV : question}
+                {over ? EMPTYDIV : questionDiv}
             </div>
             <QuestionForm handleAnswer={answer => handleAnswer(answer)}/>
             <GameInfo score={score} difficulty={difficulty} highscore={highscore}/>

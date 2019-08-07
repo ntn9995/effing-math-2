@@ -50,11 +50,16 @@ export default function useGame(settings){
 
     const question = {first, second, op}
 
+    const restartGame = () => {
+        setOver(false);
+        setScore(0);
+        setHighscore(0);
+    }
+
     useEffect(() => {
-        console.log(over);
         let currentHighscore = localStorage.getItem('currentHighscore');
         if (currentHighscore !== null) setHighscore(currentHighscore);
     }, [over])
 
-    return {over, score, highscore, difficulty, question, gameOver}
+    return {over, score, highscore, difficulty, question, gameOver, restartGame}
 }

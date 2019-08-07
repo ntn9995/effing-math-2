@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import useTimer from '../hooks/useTimer'
 
 export default function Timer(props) {
-    const {title, duration, secPrecision, msPrecision, onTimeout, continueCount, stopped} = props;
+    const {duration, secPrecision, msPrecision, onTimeout, continueCount, stopped} = props;
     let t = new Date();
     t.setSeconds(t.getSeconds() + duration);
     const expiryTimestamp = t;
@@ -41,10 +41,7 @@ export default function Timer(props) {
 
     return (
         <div>
-            <h1>{title || 'Timer'}</h1>
-            <div>
-                <span>{formatTime(secs, secPrecision)}</span>:<span>{formatTime(miliSecs, msPrecision)}</span>
-            </div>
+            <span>{formatTime(secs, secPrecision)}</span>:<span>{formatTime(miliSecs, msPrecision)}</span>
         </div>
     );
 }

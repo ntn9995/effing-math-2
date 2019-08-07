@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import Layout from './Layout'
 import Timer from './Timer';
 import QuestionForm from './QuestionForm';
 import GameInfo from './GameInfo';
@@ -51,10 +52,9 @@ export default function GameScreen() {
     const playAgainButton = <button onClick={() => restartGame()}>Play again</button>
 
     return (
-        <div>
+        <Layout>
             <div className="game-clock">
             <Timer 
-                title="EFFING MATH" 
                 duration={DURATION} 
                 secPrecision={1} 
                 msPrecision={2} onTimeout={() => handleTimeout()}
@@ -74,6 +74,6 @@ export default function GameScreen() {
                 correctAns={lastCorrectAns}
                 gameOverMsg={gameOverMsg}
             />
-        </div>
+        </Layout>
     );
 }

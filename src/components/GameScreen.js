@@ -4,6 +4,7 @@ import Timer from './Timer';
 import QuestionForm from './QuestionForm';
 import GameInfo from './GameInfo';
 import useGame from '../hooks/useGame';
+import GameContainer from '../css_modules/game-screen.module.css';
 
 const TIMEOUT = 1;
 const WRONGANS = 2;
@@ -30,6 +31,7 @@ export default function GameScreen() {
 
     const handleTimeout = () => {
         setReason(TIMEOUT);
+        sestLastCorrectAns(correctAns);
         gameOver();
     }
 
@@ -45,35 +47,43 @@ export default function GameScreen() {
     const gameOverMsg = reason === 1 ? 'Time\'s Up!' : 'Wrong Answer';
     
     const {first, second, op} = question;
-    const questionDiv = (<div>
-         <h3>{first} {op} {second} = ?</h3>
-    </div>);
+    const questionDiv = <div>{first} {op} {second} = ?</div>;
 
     const playAgainButton = <button onClick={() => restartGame()}>Play again</button>
 
     return (
         <Layout>
-            <div className="game-clock">
-            <Timer 
-                duration={DURATION} 
-                secPrecision={1} 
-                msPrecision={2} onTimeout={() => handleTimeout()}
-                continueCount={score}
-                stopped={over}
-            />
+            <div className={GameContainer.container}>
+                <div className={GameContainer.containerRow}>
+                    <div className={GameContainer.gameTimer}>
+                        <Timer 
+                            duration={DURATION} 
+                            secPrecision={1} 
+                            msPrecision={2} onTimeout={() => handleTimeout()}
+                            continueCount={score}
+                            stopped={over}
+                        />
+                    </div>
+                </div>
+                <div className={GameContainer.containerRow}>
+                    <div className={GameContainer.questionArea}>
+                        {over ? playAgainButton : questionDiv}
+                    </div>
+                </div>
+                <div className={GameContainer.containerRow}>
+                    <QuestionForm handleAnswer={answer => handleAnswer(answer)}/>
+                </div>
+                <div className={GameContainer.containerRow}>
+                    <GameInfo 
+                        score={score}
+                        difficulty={difficulty}
+                        highscore={highscore}
+                        over={over}
+                        correctAns={lastCorrectAns}
+                        gameOverMsg={gameOverMsg}
+                    />
+                </div>
             </div>
-            <div>
-                {over ? playAgainButton : questionDiv}
-            </div>
-            <QuestionForm handleAnswer={answer => handleAnswer(answer)}/>
-            <GameInfo 
-                score={score}
-                difficulty={difficulty}
-                highscore={highscore}
-                over={over}
-                correctAns={lastCorrectAns}
-                gameOverMsg={gameOverMsg}
-            />
         </Layout>
     );
 }

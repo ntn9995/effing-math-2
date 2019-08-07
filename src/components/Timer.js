@@ -32,12 +32,13 @@ export default function Timer(props) {
     }
 
     useEffect(() => {
+        console.log(stopped)
         if (!stopped) resetTimer();
         else {
             stop();
             console.log("stop timer")
         }
-    }, [continueCount, stopped])
+    }, [stopped, continueCount])
 
     return (
         <div>

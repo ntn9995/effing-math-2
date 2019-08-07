@@ -1,0 +1,8 @@
+.formContainer {
+    display: grid;
+    grid-template-rows: 70% 30%;
+}
+
+.formContainer .formItem {
+    margin: 0.8rem auto 0;
+}

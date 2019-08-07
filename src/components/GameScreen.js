@@ -12,10 +12,12 @@ const DURATION = 10;
 export default function GameScreen() {
     const [reason, setReason] = useState(0);
     const [answer, setAnswer] = useState('');
+    const [lastCorrectAns, sestLastCorrectAns] = useState('');
 
     const {
         over,
         score,
+        correctAns,
         highscore,
         difficulty,
         question,
@@ -23,11 +25,17 @@ export default function GameScreen() {
         restartGame
     } = useGame({
         answer,
-        handleWrongAns: () => {setReason(WRONGANS)}
+        handleWrongAns: () => {handleWrongAnswer()}
     });
 
     const handleTimeout = () => {
         setReason(TIMEOUT);
+        gameOver();
+    }
+
+    const handleWrongAnswer = () => {
+        setReason(WRONGANS);
+        sestLastCorrectAns(correctAns);
         gameOver();
     }
 
@@ -65,7 +73,12 @@ export default function GameScreen() {
                 {over ? playAgainButton : questionDiv}
             </div>
             <QuestionForm handleAnswer={answer => handleAnswer(answer)}/>
-            <GameInfo score={score} difficulty={difficulty} highscore={highscore}/>
+            <GameInfo 
+                score={score}
+                difficulty={difficulty}
+                highscore={highscore}
+                correctAns={lastCorrectAns}
+            />
         </div>
     );
 }

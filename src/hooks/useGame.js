@@ -36,6 +36,7 @@ export default function useGame(settings){
         first,
         second,
         op,
+        correctAns
     } = useQuestion({
         difficulty,
         answer,
@@ -57,9 +58,11 @@ export default function useGame(settings){
     }
 
     useEffect(() => {
-        let currentHighscore = localStorage.getItem('currentHighscore');
-        if (currentHighscore !== null) setHighscore(currentHighscore);
+        if (over){
+            let currentHighscore = localStorage.getItem('currentHighscore');
+            if (currentHighscore !== null) setHighscore(currentHighscore);
+        }
     }, [over])
 
-    return {over, score, highscore, difficulty, question, gameOver, restartGame}
+    return {over, score, correctAns, highscore, difficulty, question, gameOver, restartGame}
 }

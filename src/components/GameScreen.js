@@ -71,7 +71,9 @@ export default function GameScreen() {
                     </div>
                 </div>
                 <div className={GameContainer.containerRow}>
-                    <QuestionForm handleAnswer={answer => handleAnswer(answer)}/>
+                    {over ? 
+                    <div></div> :
+                    <QuestionForm handleAnswer={answer => handleAnswer(answer)}/>} 
                 </div>
                 <div className={GameContainer.containerRow}>
                     <GameInfo 

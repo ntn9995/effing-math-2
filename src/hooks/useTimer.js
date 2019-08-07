@@ -79,7 +79,6 @@ export default function useTimer(settings) {
     }
 
     useEffect(() => {
-        console.log(stopped);
         if (!stopped) start();
         return stop;
     }, [expiryTimestamp]);

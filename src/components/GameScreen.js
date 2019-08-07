@@ -9,8 +9,6 @@ const TIMEOUT = 1;
 const WRONGANS = 2;
 const DURATION = 10;
 
-const EMPTYDIV = <div></div>;
-
 export default function GameScreen() {
     const [reason, setReason] = useState(0);
     const [answer, setAnswer] = useState('');
@@ -21,7 +19,8 @@ export default function GameScreen() {
         highscore,
         difficulty,
         question,
-        gameOver
+        gameOver,
+        restartGame
     } = useGame({
         answer,
         handleWrongAns: () => {setReason(WRONGANS)}
@@ -55,13 +54,15 @@ export default function GameScreen() {
          <h3>{first} {op} {second} = ?</h3>
     </div>);
 
+    const playAgainButton = <button onClick={() => restartGame()}>Play again</button>
+
     return (
         <div>
             <div className="game-clock">
                 {over ? gameOverMsg : gameTimer}
             </div>
             <div>
-                {over ? EMPTYDIV : questionDiv}
+                {over ? playAgainButton : questionDiv}
             </div>
             <QuestionForm handleAnswer={answer => handleAnswer(answer)}/>
             <GameInfo score={score} difficulty={difficulty} highscore={highscore}/>

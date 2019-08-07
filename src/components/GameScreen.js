@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import Timer from './Timer';
 import QuestionForm from './QuestionForm';
 import GameInfo from './GameInfo';
-import useQuestion from '../hooks/useQuestion';
 import useGame from '../hooks/useGame';
 
 const TIMEOUT = 1;
@@ -42,14 +41,9 @@ export default function GameScreen() {
     const handleAnswer = a => {
         setAnswer(a);
     }
-
-    const gameOverMsg = (<div>
-        <h1>Game Over!</h1>
-        <h2>{reason === 1 ? 'Time\'s Up!' : 'Wrong Answer'}!</h2>
-    </div>);
-
+    const gameOverMsg = reason === 1 ? 'Time\'s Up!' : 'Wrong Answer';
+    
     const {first, second, op} = question;
-
     const questionDiv = (<div>
          <h3>{first} {op} {second} = ?</h3>
     </div>);
@@ -60,16 +54,13 @@ export default function GameScreen() {
         <div>
             <div className="game-clock">
             <Timer 
-                title="TICK FUCKING TOCK!" 
+                title="EFFING MATH" 
                 duration={DURATION} 
                 secPrecision={1} 
                 msPrecision={2} onTimeout={() => handleTimeout()}
                 continueCount={score}
                 stopped={over}
             />
-            </div>
-            <div>
-                {over ? gameOverMsg : ''}
             </div>
             <div>
                 {over ? playAgainButton : questionDiv}
@@ -79,7 +70,9 @@ export default function GameScreen() {
                 score={score}
                 difficulty={difficulty}
                 highscore={highscore}
+                over={over}
                 correctAns={lastCorrectAns}
+                gameOverMsg={gameOverMsg}
             />
         </div>
     );

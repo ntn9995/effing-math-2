@@ -5,6 +5,8 @@ export default function useTimer(settings) {
     const  [expiryTimestamp, setExpiryTimestamp ] = useState(expiry);
     
     const [count, setCount] = useState(0);
+    const [stopped, setStopped] = useState(false);
+    
     function subtractCount(){
         setCount(prevCount => {
             if (prevCount > 0){
@@ -12,10 +14,10 @@ export default function useTimer(settings) {
                 setMicrosecs(prevCount % 100);
                 return prevCount - 1;
             }
-            reset();
+            stop();
             isValidOnExpire(onExpire) && onExpire();
             return 0;
-        })
+        });
     }
 
     const [miliSecs, setMicrosecs] = useState(0);
@@ -38,7 +40,7 @@ export default function useTimer(settings) {
         }
     }
 
-    const [stopped, setStopped] = useState(false);
+    
     function stop(){
         setStopped(true);
         if (intervalRef.current) {

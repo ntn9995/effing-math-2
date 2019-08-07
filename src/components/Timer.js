@@ -2,9 +2,7 @@ import React, {useEffect} from 'react';
 import useTimer from '../hooks/useTimer'
 
 export default function Timer(props) {
-    const {title, duration, secPrecision, msPrecision, onTimeout, continueCount} = props;
-
-
+    const {title, duration, secPrecision, msPrecision, onTimeout, continueCount, stopped} = props;
     let t = new Date();
     t.setSeconds(t.getSeconds() + duration);
     const expiryTimestamp = t;
@@ -12,7 +10,8 @@ export default function Timer(props) {
     const {
         miliSecs,
         secs,
-        restart
+        restart,
+        stop
     } = useTimer({expiryTimestamp, onExpire:() => onTimeout()});
 
     const formatTime = (time, precision=2) => {
@@ -33,8 +32,12 @@ export default function Timer(props) {
     }
 
     useEffect(() => {
-        resetTimer();
-    }, [continueCount])
+        if (!stopped) resetTimer();
+        else {
+            stop();
+            console.log("stop timer")
+        }
+    }, [continueCount, stopped])
 
     return (
         <div>

@@ -43,14 +43,6 @@ export default function GameScreen() {
         setAnswer(a);
     }
 
-    const gameTimer = (<Timer 
-        title="TICK FUCKING TOCK!" 
-        duration={DURATION} 
-        secPrecision={1} 
-        msPrecision={2} onTimeout={() => handleTimeout()}
-        continueCount={score}
-    />);
-    
     const gameOverMsg = (<div>
         <h1>Game Over!</h1>
         <h2>{reason === 1 ? 'Time\'s Up!' : 'Wrong Answer'}!</h2>
@@ -67,7 +59,17 @@ export default function GameScreen() {
     return (
         <div>
             <div className="game-clock">
-                {over ? gameOverMsg : gameTimer}
+            <Timer 
+                title="TICK FUCKING TOCK!" 
+                duration={DURATION} 
+                secPrecision={1} 
+                msPrecision={2} onTimeout={() => handleTimeout()}
+                continueCount={score}
+                stopped={over}
+            />
+            </div>
+            <div>
+                {over ? gameOverMsg : ''}
             </div>
             <div>
                 {over ? playAgainButton : questionDiv}

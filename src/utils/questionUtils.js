@@ -38,7 +38,7 @@ const getOperands = (op, difficulty) => {
     }
 
     if (op === '/') {
-        if (PRIMES.includes(first)){
+        if (PRIMES.includes(first) || first === 1){
             if (first === 2){
                 first = 4
             } else {
